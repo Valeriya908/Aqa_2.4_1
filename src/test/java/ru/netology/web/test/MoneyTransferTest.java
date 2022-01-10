@@ -64,11 +64,11 @@ public class MoneyTransferTest {
         assertEquals(currentBalanceFirstCard + amountTransfer, dashboardPage.getCardBalance(0));
     }
 
-//    @Test
-//    void shouldTransferMoneyWithAmountTransferOverLimit() {
-//        var dashboardPage = new DashboardPage();
-//        var cardTransferPage = dashboardPage.firstCardTransfer();
-//        cardTransferPage.moneyTransfer(amountTransferOverLimit, DataHelper.getSecondCardInfo());
-//        cardTransferPage.errorMessage();
-//    }
+    @Test
+    void shouldTransferMoneyWithAmountTransferOverLimit() {
+        var dashboardPage = new DashboardPage();
+        var cardTransferPage = dashboardPage.firstCardTransfer();
+        cardTransferPage.moneyTransfer(amountTransferOverLimit, DataHelper.getSecondCardInfo());
+        cardTransferPage.errorMessage();
+    }
 }
