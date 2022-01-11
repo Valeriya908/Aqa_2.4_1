@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import ru.netology.web.data.DataHelper;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
@@ -16,13 +17,13 @@ public class CardTransferPage {
     private SelenideElement fromField = $("[data-test-id='from'] input");
     private SelenideElement buttonTopUpBalance = $("[data-test-id='action-transfer']");
     private SelenideElement buttonCancel = $("[data-test-id='action-cancel']");
-    private SelenideElement errorMessage = $("[data-test-id='error-notification']");
+    private SelenideElement errorMessage = $("[data-test-id='error-notification'] .notification__content");
 
     public CardTransferPage() {
         subheading.shouldBe(visible).shouldHave(text("Пополнение карты"));
     }
 
-    public DashboardPage moneyTransfer(int amountTransfer, DataHelper.CardInfo cardInfo) {
+    public DashboardPage validMoneyTransfer(int amountTransfer, DataHelper.CardInfo cardInfo) {
         amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
         amountField.setValue(String.valueOf(amountTransfer));
         fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
@@ -31,8 +32,24 @@ public class CardTransferPage {
         return new DashboardPage();
     }
 
+    public DashboardPage MoneyTransfer(float amountTransfer, DataHelper.CardInfo cardInfo) {
+        amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
+        amountField.setValue(String.valueOf(amountTransfer));
+        fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
+        fromField.setValue(cardInfo.getNumber());
+        buttonTopUpBalance.click();
+        return new DashboardPage();
+    }
+
+    public void invalidMoneyTransfer(int amountTransfer) {
+        amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
+        amountField.setValue(String.valueOf(amountTransfer));
+        fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
+        buttonTopUpBalance.click();
+    }
+
     public void errorMessage() {
-        errorMessage.shouldBe(visible).shouldHave(text("Ошибка! "), Duration.ofSeconds(10));
+        errorMessage.shouldBe(visible).shouldHave(text("Ошибка! Произошла ошибка"), Duration.ofSeconds(10));
     }
 }
 
