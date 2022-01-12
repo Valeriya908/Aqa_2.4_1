@@ -4,7 +4,6 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import ru.netology.web.data.DataHelper;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
@@ -16,34 +15,24 @@ public class CardTransferPage {
     private SelenideElement amountField = $("[data-test-id='amount'] input");
     private SelenideElement fromField = $("[data-test-id='from'] input");
     private SelenideElement buttonTopUpBalance = $("[data-test-id='action-transfer']");
-    private SelenideElement buttonCancel = $("[data-test-id='action-cancel']");
     private SelenideElement errorMessage = $("[data-test-id='error-notification'] .notification__content");
 
     public CardTransferPage() {
         subheading.shouldBe(visible).shouldHave(text("Пополнение карты"));
     }
 
-    public DashboardPage validMoneyTransfer(int amountTransfer, DataHelper.CardInfo cardInfo) {
+    public DashboardPage validMoneyTransfer(String amountTransfer, DataHelper.CardInfo cardInfo) {
         amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
-        amountField.setValue(String.valueOf(amountTransfer));
+        amountField.setValue(amountTransfer);
         fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
         fromField.setValue(cardInfo.getNumber());
         buttonTopUpBalance.click();
         return new DashboardPage();
     }
 
-    public DashboardPage MoneyTransfer(float amountTransfer, DataHelper.CardInfo cardInfo) {
+    public void invalidMoneyTransfer(String amountTransfer) {
         amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
-        amountField.setValue(String.valueOf(amountTransfer));
-        fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
-        fromField.setValue(cardInfo.getNumber());
-        buttonTopUpBalance.click();
-        return new DashboardPage();
-    }
-
-    public void invalidMoneyTransfer(int amountTransfer) {
-        amountField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
-        amountField.setValue(String.valueOf(amountTransfer));
+        amountField.setValue(amountTransfer);
         fromField.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
         buttonTopUpBalance.click();
     }
